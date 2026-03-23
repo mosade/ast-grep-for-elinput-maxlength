@@ -94,7 +94,9 @@ fix: <el-input $$$ATTRS maxlength="20" />
 - 再排除 `v-bind:maxlength` shorthand 写法
 - 再排除 `v-bind:maxlength.camel=...` 这类带修饰符写法
 - 再排除 `v-bind="{ maxlength: ... }"` 这类对象展开写法
+- 再排除 `v-bind="{ 'maxlength': ... }"` 这类带引号 key 的对象展开写法
 - 也排除 `v-bind="{ maxLength: ... }"` 这类驼峰键写法
+- 也排除 `v-bind='{ "maxLength": ... }'` 这类双引号 key 写法
 - 最后给剩余的节点自动补上 `maxlength="20"`
 
 非自闭合标签规则 `rules/add-missing-maxlength-paired.yml`：
@@ -144,7 +146,7 @@ rule:
     - pattern: <ElInput $$$BEFORE v-bind=$OBJ $$$AFTER>$$$CHILDREN</ElInput>
 constraints:
   OBJ:
-    regex: "^['\"]\\{[\\s\\S]*(?:\\bmaxlength\\b|\\bmaxLength\\b)(?:\\s*:|[\\s,}])[\\s\\S]*\\}['\"]$"
+    regex: "^['\"]\\{[\\s\\S]*(?:(?:['\"](?:maxlength|maxLength)['\"])|\\bmaxlength\\b|\\bmaxLength\\b)(?:\\s*:|[\\s,}])[\\s\\S]*\\}['\"]$"
 ```
 
 这条规则的含义是：
@@ -159,7 +161,9 @@ constraints:
 - 排除 `v-bind:maxlength` shorthand 写法
 - 排除 `v-bind:maxlength.camel=...` 这类带修饰符写法
 - 排除 `v-bind="{ maxlength: ... }"` 这类对象展开写法
+- 排除 `v-bind="{ 'maxlength': ... }"` 这类带引号 key 的对象展开写法
 - 也排除 `v-bind="{ maxLength: ... }"` 这类驼峰键写法
+- 也排除 `v-bind='{ "maxLength": ... }'` 这类双引号 key 写法
 - 保留原有子节点内容，只补上 `maxlength="20"`
 
 ## 4. 写测试用例
@@ -174,6 +178,8 @@ valid:
   - <el-input v-model="form.boundUndefined" :maxlength="undefined" />
   - <el-input v-model="form.alias" v-bind:maxlength="maxAliasLength" />
   - <el-input v-model="form.profile" v-bind="{ maxlength: 10 }" />
+  - '<el-input v-model="form.profile" v-bind="{ ''maxlength'': 10 }" />'
+  - "<el-input v-model=\"form.profile\" v-bind='{ \"maxLength\": 10 }' />"
 invalid:
   - <el-input v-model="form.address" placeholder="未设置 maxlength" />
   - |
@@ -308,9 +314,11 @@ npx -p @ast-grep/cli sg scan app.vue
 - 已有 `v-bind:maxlength`：不会匹配
 - 已有 `v-bind:maxlength.camel="maxAliasLength"`：不会匹配
 - 已有 `v-bind="{ maxlength: 10 }"`：不会匹配
+- 已有 `v-bind="{ 'maxlength': 10 }"`：不会匹配
 - 已有 `v-bind='{ maxlength: 10 }'`：不会匹配
 - 已有 `v-bind="{ maxlength }"`：不会匹配
 - 已有 `v-bind="{ maxLength: 10 }"`：不会匹配
+- 已有 `v-bind='{ "maxLength": 10 }'`：不会匹配
 - 已有 `v-bind='{ maxLength: 10 }'`：不会匹配
 - 已有 `v-bind="{ maxLength }"`：不会匹配
 - 自闭合且没写 `maxlength`：会匹配并补上
@@ -346,9 +354,11 @@ npx -p @ast-grep/cli sg scan -U .
 - 已支持排除 `:maxlength.prop="..."` / `v-bind:maxlength.camel="..."` 这类带修饰符写法
 - 已支持处理 PascalCase 组件：`<ElInput />` 和 `<ElInput></ElInput>`
 - 已支持排除对象展开写法：`v-bind="{ maxlength: 10 }"`
+- 已支持排除带单引号 key 的对象展开：`v-bind="{ 'maxlength': 10 }"`
 - 已支持排除单引号对象展开写法：`v-bind='{ maxlength: 10 }'`
 - 已支持排除对象属性简写：`v-bind="{ maxlength }"`
 - 已支持排除对象展开里的驼峰键：`v-bind="{ maxLength: 10 }"` / `v-bind="{ maxLength }"`
+- 已支持排除带双引号 key 的驼峰对象写法：`v-bind='{ "maxLength": 10 }'`
 
 为此新增了这些文件：
 
@@ -367,6 +377,7 @@ npx -p @ast-grep/cli sg scan -U .
 - shorthand：`:maxlength`、`v-bind:maxlength`
 - 带修饰符属性：`:maxlength.prop="..."`、`v-bind:maxlength.camel="..."`
 - 单引号包裹属性值：`v-bind='{ maxlength: 10 }'`
+- 带引号对象 key：`v-bind="{ 'maxlength': 10 }"`、`v-bind='{ "maxLength": 10 }'`
 - 对象属性简写：`v-bind="{ maxlength }"`
 - 驼峰键对象属性：`v-bind="{ maxLength: 10 }"`、`v-bind="{ maxLength }"`
 
@@ -391,9 +402,11 @@ npx -p @ast-grep/cli sg scan -U .
 所以当前策略是：
 
 - `v-bind="{ maxlength: 10 }"`：不会匹配
+- `v-bind="{ 'maxlength': 10 }"`：不会匹配
 - `v-bind='{ maxlength: 10 }'`：不会匹配
 - `v-bind="{ maxlength }"`：不会匹配
 - `v-bind="{ maxLength: 10 }"`：不会匹配
+- `v-bind='{ "maxLength": 10 }'`：不会匹配
 - `v-bind="{ maxLength }"`：不会匹配
 - `v-bind="{ foo: 1 }"`：会匹配
 - `v-bind="{ maxLengthFoo: 1 }"`：会匹配
@@ -416,8 +429,10 @@ npx -p @ast-grep/cli sg scan -U .
 - `:maxlength` / `v-bind:maxlength` shorthand
 - `:maxlength.prop="..."` / `v-bind:maxlength.camel="..."`
 - `v-bind='{ maxlength: 10 }'`
+- `v-bind="{ 'maxlength': 10 }"`
 - `v-bind="{ maxlength }"`
 - `v-bind="{ maxLength: 10 }"`
+- `v-bind='{ "maxLength": 10 }'`
 - `v-bind="{ maxLength }"`
 - `v-bind="{ foo: 1 }"` 仍会命中
 - `v-bind="{ maxLengthFoo: 1 }"` 仍会命中

@@ -9,10 +9,14 @@ valid:
   - <ElInput v-model="form.aliasProp" :maxlength.prop="maxAliasLength"></ElInput>
   - <ElInput v-model="form.aliasCamel" v-bind:maxlength.camel="maxAliasLength"></ElInput>
   - '<ElInput v-model="form.profile" v-bind="{ maxlength: 10 }"></ElInput>'
+  - '<ElInput v-model="form.profile" v-bind="{ ''maxlength'': 10 }"></ElInput>'
   - "<ElInput v-model=\"form.profile\" v-bind='{ maxlength: 10 }'></ElInput>"
   - '<ElInput v-model="form.profile" v-bind="{ maxlength }"></ElInput>'
   - '<ElInput v-model="form.profile" v-bind="{ maxLength: 10 }"></ElInput>'
+  - "<ElInput v-model=\"form.profile\" v-bind='{ \"maxLength\": 10 }'></ElInput>"
   - "<ElInput v-model=\"form.profile\" v-bind='{ maxLength: 10 }'></ElInput>"
+  - "<ElInput v-model=\"form.profile\" v-bind='{ \"maxlength\": 10 }'></ElInput>"
+  - '<ElInput v-model="form.profile" v-bind="{ ''maxLength'': 10 }"></ElInput>'
   - '<ElInput v-model="form.profile" v-bind="{ maxLength }"></ElInput>'
   - |
     <ElInput v-model="form.note" maxlength="50">

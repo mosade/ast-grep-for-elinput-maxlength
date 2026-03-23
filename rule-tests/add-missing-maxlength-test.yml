@@ -10,10 +10,14 @@ valid:
   - <el-input v-model="form.aliasProp" :maxlength.prop="maxAliasLength" />
   - <el-input v-model="form.aliasCamel" v-bind:maxlength.camel="maxAliasLength" />
   - '<el-input v-model="form.profile" v-bind="{ maxlength: 10 }" />'
+  - '<el-input v-model="form.profile" v-bind="{ ''maxlength'': 10 }" />'
   - "<el-input v-model=\"form.profile\" v-bind='{ maxlength: 10 }' />"
   - '<el-input v-model="form.profile" v-bind="{ maxlength }" />'
   - '<el-input v-model="form.profile" v-bind="{ maxLength: 10 }" />'
+  - "<el-input v-model=\"form.profile\" v-bind='{ \"maxLength\": 10 }' />"
   - "<el-input v-model=\"form.profile\" v-bind='{ maxLength: 10 }' />"
+  - "<el-input v-model=\"form.profile\" v-bind='{ \"maxlength\": 10 }' />"
+  - '<el-input v-model="form.profile" v-bind="{ ''maxLength'': 10 }" />'
   - '<el-input v-model="form.profile" v-bind="{ maxLength }" />'
 invalid:
   - <el-input v-model="form.address" placeholder="未设置 maxlength" />

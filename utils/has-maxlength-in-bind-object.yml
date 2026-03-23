@@ -8,4 +8,4 @@ rule:
     - pattern: <ElInput $$$BEFORE v-bind=$OBJ $$$AFTER>$$$CHILDREN</ElInput>
 constraints:
   OBJ:
-    regex: "^['\"]\\{[\\s\\S]*(?:\\bmaxlength\\b|\\bmaxLength\\b)(?:\\s*:|[\\s,}])[\\s\\S]*\\}['\"]$"
+    regex: "^['\"]\\{[\\s\\S]*(?:(?:['\"](?:maxlength|maxLength)['\"])|\\bmaxlength\\b|\\bmaxLength\\b)(?:\\s*:|[\\s,}])[\\s\\S]*\\}['\"]$"
