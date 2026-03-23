@@ -1,0 +1,11 @@
+id: has-maxlength-in-bind-object
+language: html
+rule:
+  any:
+    - pattern: <el-input $$$BEFORE v-bind=$OBJ $$$AFTER />
+    - pattern: <el-input $$$BEFORE v-bind=$OBJ $$$AFTER>$$$CHILDREN</el-input>
+    - pattern: <ElInput $$$BEFORE v-bind=$OBJ $$$AFTER />
+    - pattern: <ElInput $$$BEFORE v-bind=$OBJ $$$AFTER>$$$CHILDREN</ElInput>
+constraints:
+  OBJ:
+    regex: "^['\"]\\{[\\s\\S]*(?:\\bmaxlength\\b|\\bmaxLength\\b)(?:\\s*:|[\\s,}])[\\s\\S]*\\}['\"]$"

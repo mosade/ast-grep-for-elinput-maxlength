@@ -1,0 +1,20 @@
+id: add-missing-maxlength
+language: html
+message: el-input is missing maxlength
+severity: warning
+rule:
+  all:
+    - pattern: <el-input $$$ATTRS />
+    - not:
+        matches: has-maxlength-attr
+    - not:
+        matches: has-maxlength-in-bind-object
+    - not:
+        any:
+          - pattern: <el-input $$$BEFORE maxlength $$$AFTER />
+          - pattern: <el-input $$$BEFORE maxlength=$VALUE $$$AFTER />
+          - pattern: <el-input $$$BEFORE :maxlength $$$AFTER />
+          - pattern: <el-input $$$BEFORE :maxlength=$VALUE $$$AFTER />
+          - pattern: <el-input $$$BEFORE v-bind:maxlength $$$AFTER />
+          - pattern: <el-input $$$BEFORE v-bind:maxlength=$VALUE $$$AFTER />
+fix: <el-input $$$ATTRS maxlength="20" />

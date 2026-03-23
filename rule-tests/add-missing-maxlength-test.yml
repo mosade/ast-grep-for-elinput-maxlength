@@ -1,0 +1,27 @@
+id: add-missing-maxlength
+valid:
+  - <el-input v-model="form.username" maxlength="20" />
+  - <el-input v-model="form.booleanAttr" maxlength />
+  - <el-input v-model="form.email" :maxlength="maxEmailLength" />
+  - <el-input v-model="form.emailShorthand" :maxlength />
+  - <el-input v-model="form.boundUndefined" :maxlength="undefined" />
+  - <el-input v-model="form.alias" v-bind:maxlength="maxAliasLength" />
+  - <el-input v-model="form.aliasShorthand" v-bind:maxlength />
+  - <el-input v-model="form.aliasProp" :maxlength.prop="maxAliasLength" />
+  - <el-input v-model="form.aliasCamel" v-bind:maxlength.camel="maxAliasLength" />
+  - '<el-input v-model="form.profile" v-bind="{ maxlength: 10 }" />'
+  - "<el-input v-model=\"form.profile\" v-bind='{ maxlength: 10 }' />"
+  - '<el-input v-model="form.profile" v-bind="{ maxlength }" />'
+  - '<el-input v-model="form.profile" v-bind="{ maxLength: 10 }" />'
+  - "<el-input v-model=\"form.profile\" v-bind='{ maxLength: 10 }' />"
+  - '<el-input v-model="form.profile" v-bind="{ maxLength }" />'
+invalid:
+  - <el-input v-model="form.address" placeholder="未设置 maxlength" />
+  - |
+    <el-input
+      v-model="form.phone"
+      clearable
+      placeholder="带其他属性但不含 maxlength"
+    />
+  - '<el-input v-model="form.profile" v-bind="{ foo: 1 }" />'
+  - '<el-input v-model="form.profile" v-bind="{ maxLengthFoo: 1 }" />'

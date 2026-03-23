@@ -1,0 +1,4 @@
+id: has-maxlength-attr
+language: html
+rule:
+  regex: '<(?:el-input|ElInput)\b[^>]*\s(?::maxlength|v-bind:maxlength)\.[^\s=/>]+(?:\s*=\s*(?:"[^"]*"|''[^'']*''|[^\s>]+))?[^>]*>'

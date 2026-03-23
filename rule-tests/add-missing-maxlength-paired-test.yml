@@ -1,0 +1,40 @@
+id: add-missing-maxlength-paired
+valid:
+  - <el-input v-model="form.username" maxlength="20"></el-input>
+  - <el-input v-model="form.booleanAttr" maxlength></el-input>
+  - <el-input v-model="form.email" :maxlength="maxEmailLength"></el-input>
+  - <el-input v-model="form.emailShorthand" :maxlength></el-input>
+  - <el-input v-model="form.alias" v-bind:maxlength="maxAliasLength"></el-input>
+  - <el-input v-model="form.aliasShorthand" v-bind:maxlength></el-input>
+  - <el-input v-model="form.aliasProp" :maxlength.prop="maxAliasLength"></el-input>
+  - <el-input v-model="form.aliasCamel" v-bind:maxlength.camel="maxAliasLength"></el-input>
+  - '<el-input v-model="form.profile" v-bind="{ maxlength: 10 }"></el-input>'
+  - "<el-input v-model=\"form.profile\" v-bind='{ maxlength: 10 }'></el-input>"
+  - '<el-input v-model="form.profile" v-bind="{ maxlength }"></el-input>'
+  - '<el-input v-model="form.profile" v-bind="{ maxLength: 10 }"></el-input>'
+  - "<el-input v-model=\"form.profile\" v-bind='{ maxLength: 10 }'></el-input>"
+  - '<el-input v-model="form.profile" v-bind="{ maxLength }"></el-input>'
+  - |
+    <el-input
+      v-model="form.note"
+      clearable
+      maxlength="50"
+    ></el-input>
+  - |
+    <el-input v-model="form.note" maxlength="50">
+      <span>child</span>
+    </el-input>
+invalid:
+  - <el-input v-model="form.address"></el-input>
+  - |
+    <el-input
+      v-model="form.phone"
+      clearable
+      placeholder="非 self-close 且不含 maxlength"
+    ></el-input>
+  - |
+    <el-input v-model="form.note">
+      <span>child</span>
+    </el-input>
+  - '<el-input v-model="form.profile" v-bind="{ foo: 1 }"></el-input>'
+  - '<el-input v-model="form.profile" v-bind="{ maxLengthFoo: 1 }"></el-input>'

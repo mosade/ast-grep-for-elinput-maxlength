@@ -1,0 +1,26 @@
+id: add-missing-maxlength-pascal
+valid:
+  - <ElInput v-model="form.username" maxlength="20" />
+  - <ElInput v-model="form.booleanAttr" maxlength />
+  - <ElInput v-model="form.email" :maxlength="maxEmailLength" />
+  - <ElInput v-model="form.emailShorthand" :maxlength />
+  - <ElInput v-model="form.alias" v-bind:maxlength="maxAliasLength" />
+  - <ElInput v-model="form.aliasShorthand" v-bind:maxlength />
+  - <ElInput v-model="form.aliasProp" :maxlength.prop="maxAliasLength" />
+  - <ElInput v-model="form.aliasCamel" v-bind:maxlength.camel="maxAliasLength" />
+  - '<ElInput v-model="form.profile" v-bind="{ maxlength: 10 }" />'
+  - "<ElInput v-model=\"form.profile\" v-bind='{ maxlength: 10 }' />"
+  - '<ElInput v-model="form.profile" v-bind="{ maxlength }" />'
+  - '<ElInput v-model="form.profile" v-bind="{ maxLength: 10 }" />'
+  - "<ElInput v-model=\"form.profile\" v-bind='{ maxLength: 10 }' />"
+  - '<ElInput v-model="form.profile" v-bind="{ maxLength }" />'
+invalid:
+  - <ElInput v-model="form.address" placeholder="未设置 maxlength" />
+  - |
+    <ElInput
+      v-model="form.phone"
+      clearable
+      placeholder="PascalCase 且不含 maxlength"
+    />
+  - '<ElInput v-model="form.profile" v-bind="{ foo: 1 }" />'
+  - '<ElInput v-model="form.profile" v-bind="{ maxLengthFoo: 1 }" />'

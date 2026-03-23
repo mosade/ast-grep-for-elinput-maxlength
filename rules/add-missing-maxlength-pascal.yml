@@ -1,0 +1,20 @@
+id: add-missing-maxlength-pascal
+language: html
+message: ElInput is missing maxlength
+severity: warning
+rule:
+  all:
+    - pattern: <ElInput $$$ATTRS />
+    - not:
+        matches: has-maxlength-attr
+    - not:
+        matches: has-maxlength-in-bind-object
+    - not:
+        any:
+          - pattern: <ElInput $$$BEFORE maxlength $$$AFTER />
+          - pattern: <ElInput $$$BEFORE maxlength=$VALUE $$$AFTER />
+          - pattern: <ElInput $$$BEFORE :maxlength $$$AFTER />
+          - pattern: <ElInput $$$BEFORE :maxlength=$VALUE $$$AFTER />
+          - pattern: <ElInput $$$BEFORE v-bind:maxlength $$$AFTER />
+          - pattern: <ElInput $$$BEFORE v-bind:maxlength=$VALUE $$$AFTER />
+fix: <ElInput $$$ATTRS maxlength="20" />
